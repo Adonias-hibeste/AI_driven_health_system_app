@@ -10,14 +10,13 @@ class _SettingsPageState extends State<SettingsPage> {
   bool _notificationsEnabled = true;
   bool _shareDataEnabled = false;
   bool _darkModeEnabled = false;
-  int _currentIndex = 3; // Set initial index to the Settings tab
+  int _currentIndex = 3;
 
   // Method to handle bottom navigation item taps
   void _onNavBarItemTapped(int index) {
     setState(() {
       _currentIndex = index;
     });
-    // Handle navigation based on selected index
     switch (index) {
       case 0:
         Get.toNamed('/home');
@@ -41,13 +40,9 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back, // Back arrow icon
-            color: Colors.white, // Set icon color to white
-          ),
+          icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            // Navigate back to the previous page
-            Get.back(); // Use GetX to go back
+            Get.back();
           },
         ),
         title: Text(
@@ -56,7 +51,7 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
         centerTitle: true,
         backgroundColor: Color(0xFF56ab2f),
-        elevation: 0,
+        elevation: 2,
       ),
       body: SafeArea(
         child: Container(
@@ -70,6 +65,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           child: ListView(
             children: [
+              // Notifications Section
               _buildSectionHeader('Notifications'),
               _buildCard(
                 child: _buildSwitchTile(
@@ -83,10 +79,20 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
               SizedBox(height: 20),
+
+              // Account Management Section
               _buildSectionHeader('Account'),
               _buildCard(
                 child: Column(
                   children: [
+                    _buildListTile(
+                      'Update Profile Information',
+                      Icons.person,
+                      () {
+                        Get.toNamed('/profile');
+                      },
+                    ),
+                    _buildDivider(),
                     _buildListTile(
                       'Change Email',
                       Icons.email,
@@ -102,10 +108,37 @@ class _SettingsPageState extends State<SettingsPage> {
                         // Add change password functionality
                       },
                     ),
+                    _buildDivider(),
+                    _buildListTile(
+                      'Log Out',
+                      Icons.exit_to_app,
+                      () {
+                        // Add log out functionality
+                        Get.snackbar(
+                          'Log Out',
+                          'You have been logged out successfully!',
+                          backgroundColor: Colors.red,
+                          colorText: Colors.white,
+                        );
+                      },
+                      textColor: Colors.red,
+                    ),
+                    _buildDivider(),
+                    _buildListTile(
+                      'Delete Account',
+                      Icons.delete_forever,
+                      () {
+                        // Add delete account functionality
+                        _confirmDeleteAccount(context);
+                      },
+                      textColor: Colors.red,
+                    ),
                   ],
                 ),
               ),
               SizedBox(height: 20),
+
+              // Privacy Settings Section
               _buildSectionHeader('Privacy'),
               _buildCard(
                 child: _buildSwitchTile(
@@ -119,7 +152,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
               SizedBox(height: 20),
-              _buildSectionHeader('Theme'),
+
+              // Theme Settings Section
+              _buildSectionHeader('Appearance'),
               _buildCard(
                 child: _buildSwitchTile(
                   'Enable Dark Mode',
@@ -132,7 +167,30 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
               SizedBox(height: 20),
-              _buildLogOutButton(),
+
+              // App Info Section
+              _buildSectionHeader('App Information'),
+              _buildCard(
+                child: Column(
+                  children: [
+                    _buildListTile(
+                      'About App',
+                      Icons.info,
+                      () {
+                        Get.toNamed('/about');
+                      },
+                    ),
+                    _buildDivider(),
+                    _buildListTile(
+                      'Terms and Conditions',
+                      Icons.description,
+                      () {
+                        Get.toNamed('/terms');
+                      },
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -188,17 +246,21 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       elevation: 5,
       shadowColor: Colors.black.withOpacity(0.1),
-      color: Colors.white.withOpacity(0.8),
+      color: Colors.white.withOpacity(0.9),
       child: child,
     );
   }
 
-  Widget _buildListTile(String title, IconData icon, Function() onTap) {
+  Widget _buildListTile(String title, IconData icon, Function() onTap,
+      {Color? textColor}) {
     return ListTile(
       leading: Icon(icon, color: Color(0xFF56ab2f)),
       title: Text(
         title,
-        style: TextStyle(color: Colors.black87, fontWeight: FontWeight.w500),
+        style: TextStyle(
+          color: textColor ?? Colors.black87,
+          fontWeight: FontWeight.w500,
+        ),
       ),
       onTap: onTap,
     );
@@ -230,29 +292,37 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _buildLogOutButton() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20.0),
-      child: ElevatedButton(
-        onPressed: () {
-          // Handle log out functionality here
-          Get.snackbar('Log Out', 'You have been logged out successfully!',
-              backgroundColor: Colors.red, colorText: Colors.white);
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.red,
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          elevation: 4,
-        ),
-        child: Text(
-          'Log Out',
-          style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
-        ),
-      ),
+  void _confirmDeleteAccount(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Delete Account'),
+          content: Text(
+              'Are you sure you want to delete your account? This action cannot be undone.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close dialog
+              },
+              child: Text('Cancel', style: TextStyle(color: Colors.grey)),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close dialog
+                Get.snackbar(
+                  'Account Deleted',
+                  'Your account has been deleted successfully.',
+                  backgroundColor: Colors.red,
+                  colorText: Colors.white,
+                );
+                // Add delete account logic here
+              },
+              child: Text('Delete', style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
     );
   }
 }

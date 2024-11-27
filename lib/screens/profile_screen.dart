@@ -1,4 +1,4 @@
-import 'dart:io'; // Import the dart:io package
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,7 +11,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final _picker = ImagePicker();
   XFile? _profileImage;
-  bool _isEditing = false; // Flag to toggle editing mode
+  bool _isEditing = false;
 
   String _name = 'John Doe';
   String _email = 'john.doe@example.com';
@@ -20,7 +20,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   int _currentIndex = 2; // Initially set to Profile tab
 
-  // Method to pick image from the gallery or camera
   Future<void> _pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
@@ -30,12 +29,10 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  // Method to handle bottom navigation item taps
   void _onNavBarItemTapped(int index) {
     setState(() {
       _currentIndex = index;
     });
-    // Handle navigation based on selected index
     switch (index) {
       case 0:
         Get.toNamed('/home');
@@ -57,123 +54,117 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back, // Back arrow icon
-            color: Colors.white, // Set icon color to white
-          ),
-          onPressed: () {
-            // Navigate back to the previous page
-            Get.back(); // Use GetX to go back
-          },
-        ),
-        title: Text(
-          'Profile',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-        backgroundColor: Color(0xFF56ab2f),
-        elevation: 0,
-      ),
-      body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.all(16.0),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFFa8e063), Color(0xFF56ab2f)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+      body: Column(
+        children: [
+          // Top gradient section with profile image
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xFFa8e063), Color(0xFF56ab2f)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
             ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Profile Picture Section with Edit Button
-              Center(
-                child: Column(
+            child: Column(
+              children: [
+                // Title and Back Button
+                Stack(
                   children: [
-                    GestureDetector(
-                      onTap: _pickImage,
-                      child: CircleAvatar(
-                        radius: 60,
-                        backgroundColor: Colors.grey[300],
-                        backgroundImage: _profileImage != null
-                            ? FileImage(File(_profileImage!.path))
-                            : null,
-                        child: _profileImage == null
-                            ? Icon(Icons.camera_alt,
-                                size: 40, color: Colors.white)
-                            : null,
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: IconButton(
+                        icon: Icon(Icons.arrow_back, color: Colors.white),
+                        onPressed: () {
+                          Get.back();
+                        },
                       ),
                     ),
-                    SizedBox(height: 16),
-                    _isEditing
-                        ? ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                _isEditing = false;
-                              });
-                              Get.snackbar(
-                                  'Profile', 'Profile updated successfully!',
-                                  backgroundColor: Colors.green,
-                                  colorText: Colors.white);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFF56ab2f),
-                              padding: EdgeInsets.symmetric(horizontal: 20),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
-                            child: Text('Save Profile',
-                                style: TextStyle(color: Colors.white)),
-                          )
-                        : ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                _isEditing = true;
-                              });
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFF56ab2f),
-                              padding: EdgeInsets.symmetric(horizontal: 20),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
-                            child: Text(
-                              'Edit Profile',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
+                    Center(
+                      child: Text(
+                        'Profile',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
-              ),
-              SizedBox(height: 20),
-
-              // Profile Fields Section
-              Text(
-                'Personal Information',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                SizedBox(height: 20),
+                // Profile Image
+                GestureDetector(
+                  onTap: _pickImage,
+                  child: CircleAvatar(
+                    radius: 60,
+                    backgroundColor: Colors.grey[300],
+                    backgroundImage: _profileImage != null
+                        ? FileImage(File(_profileImage!.path))
+                        : null,
+                    child: _profileImage == null
+                        ? Icon(Icons.camera_alt, size: 40, color: Colors.white)
+                        : null,
+                  ),
                 ),
-              ),
-              SizedBox(height: 20),
-
-              _buildTextField('Name', _name),
-              SizedBox(height: 16),
-              _buildTextField('Email', _email),
-              SizedBox(height: 16),
-              _buildTextField('Phone', _phone),
-              SizedBox(height: 16),
-              _buildTextField('Address', _address),
-              SizedBox(height: 40),
-            ],
+                SizedBox(height: 16),
+                // Edit/Save Button
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      _isEditing = !_isEditing;
+                    });
+                    if (!_isEditing) {
+                      Get.snackbar(
+                        'Profile',
+                        'Profile updated successfully!',
+                        backgroundColor: Colors.green,
+                        colorText: Colors.white,
+                      );
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    foregroundColor: Color(0xFF56ab2f),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    elevation: 3,
+                  ),
+                  child: Text(_isEditing ? 'Save Profile' : 'Edit Profile'),
+                ),
+              ],
+            ),
           ),
-        ),
+          // Personal Information Section
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.all(16.0),
+              color: Colors.grey[100],
+              child: ListView(
+                children: [
+                  Text(
+                    'Personal Information',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF56ab2f),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  _buildTextField('Name', _name),
+                  SizedBox(height: 16),
+                  _buildTextField('Email', _email),
+                  SizedBox(height: 16),
+                  _buildTextField('Phone', _phone),
+                  SizedBox(height: 16),
+                  _buildTextField('Address', _address),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
@@ -205,19 +196,26 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  // Helper method to build text fields (non-editable when not in editing mode)
   Widget _buildTextField(String label, String initialValue) {
     return TextField(
       controller: TextEditingController(text: initialValue),
-      enabled: _isEditing, // Only allow editing when in editing mode
+      enabled: _isEditing,
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: TextStyle(color: Colors.black),
+        labelStyle: TextStyle(color: Color(0xFF56ab2f)),
         fillColor: Colors.white,
         filled: true,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
           borderSide: BorderSide.none,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Color(0xFF56ab2f), width: 1.5),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Color(0xFF56ab2f), width: 2.0),
+          borderRadius: BorderRadius.circular(8.0),
         ),
       ),
     );
