@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+class ThemeController extends GetxController {
+  var isDarkMode = false.obs;
+
+  void toggleTheme() {
+    isDarkMode.value = !isDarkMode.value;
+    Get.changeTheme(isDarkMode.value ? ThemeData.dark() : ThemeData.light());
+  }
+}
+
 class SettingsPage extends StatefulWidget {
   @override
   _SettingsPageState createState() => _SettingsPageState();
@@ -9,10 +18,9 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   bool _notificationsEnabled = true;
   bool _shareDataEnabled = false;
-  bool _darkModeEnabled = false;
+  final ThemeController _themeController = Get.put(ThemeController());
   int _currentIndex = 3;
 
-  // Method to handle bottom navigation item taps
   void _onNavBarItemTapped(int index) {
     setState(() {
       _currentIndex = index;
@@ -40,17 +48,17 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             Get.back();
           },
         ),
         title: Text(
           'Settings',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
-        backgroundColor: Color(0xFF56ab2f),
+        backgroundColor: Get.isDarkMode ? Colors.black : Color(0xFF56ab2f),
         elevation: 2,
       ),
       body: SafeArea(
@@ -58,7 +66,9 @@ class _SettingsPageState extends State<SettingsPage> {
           padding: EdgeInsets.all(16.0),
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFFa8e063), Color(0xFF56ab2f)],
+              colors: Get.isDarkMode
+                  ? [Colors.black87, Colors.black54]
+                  : [Color(0xFFa8e063), Color(0xFF56ab2f)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -128,7 +138,6 @@ class _SettingsPageState extends State<SettingsPage> {
                       'Delete Account',
                       Icons.delete_forever,
                       () {
-                        // Add delete account functionality
                         _confirmDeleteAccount(context);
                       },
                       textColor: Colors.red,
@@ -156,15 +165,15 @@ class _SettingsPageState extends State<SettingsPage> {
               // Theme Settings Section
               _buildSectionHeader('Appearance'),
               _buildCard(
-                child: _buildSwitchTile(
-                  'Enable Dark Mode',
-                  _darkModeEnabled,
-                  (value) {
-                    setState(() {
-                      _darkModeEnabled = value;
-                    });
-                  },
-                ),
+                child: Obx(() {
+                  return _buildSwitchTile(
+                    'Enable Dark Mode',
+                    _themeController.isDarkMode.value,
+                    (value) {
+                      _themeController.toggleTheme();
+                    },
+                  );
+                }),
               ),
               SizedBox(height: 20),
 
@@ -196,7 +205,7 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Get.isDarkMode ? Colors.black87 : Colors.white,
         selectedItemColor: Color(0xFF56ab2f),
         unselectedItemColor: Colors.grey,
         showSelectedLabels: true,
@@ -246,7 +255,9 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       elevation: 5,
       shadowColor: Colors.black.withOpacity(0.1),
-      color: Colors.white.withOpacity(0.9),
+      color: Get.isDarkMode
+          ? Colors.grey[850]?.withOpacity(0.9)
+          : Colors.white.withOpacity(0.9),
       child: child,
     );
   }
@@ -254,11 +265,12 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget _buildListTile(String title, IconData icon, Function() onTap,
       {Color? textColor}) {
     return ListTile(
-      leading: Icon(icon, color: Color(0xFF56ab2f)),
+      leading:
+          Icon(icon, color: Get.isDarkMode ? Colors.white : Color(0xFF56ab2f)),
       title: Text(
         title,
         style: TextStyle(
-          color: textColor ?? Colors.black87,
+          color: textColor ?? (Get.isDarkMode ? Colors.white : Colors.black87),
           fontWeight: FontWeight.w500,
         ),
       ),
@@ -268,7 +280,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Widget _buildDivider() {
     return Divider(
-      color: Colors.grey[300],
+      color: Get.isDarkMode ? Colors.grey[700] : Colors.grey[300],
       height: 1,
       thickness: 1,
       indent: 16,
@@ -280,7 +292,9 @@ class _SettingsPageState extends State<SettingsPage> {
     return ListTile(
       title: Text(
         title,
-        style: TextStyle(color: Colors.black87, fontWeight: FontWeight.w500),
+        style: TextStyle(
+            color: Get.isDarkMode ? Colors.white : Colors.black87,
+            fontWeight: FontWeight.w500),
       ),
       trailing: Switch(
         value: value,
@@ -297,15 +311,22 @@ class _SettingsPageState extends State<SettingsPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Delete Account'),
+          backgroundColor: Get.isDarkMode ? Colors.grey[900] : Colors.white,
+          title: Text('Delete Account',
+              style: TextStyle(
+                  color: Get.isDarkMode ? Colors.white : Colors.black)),
           content: Text(
-              'Are you sure you want to delete your account? This action cannot be undone.'),
+              'Are you sure you want to delete your account? This action cannot be undone.',
+              style: TextStyle(
+                  color: Get.isDarkMode ? Colors.white : Colors.black)),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(); // Close dialog
               },
-              child: Text('Cancel', style: TextStyle(color: Colors.grey)),
+              child: Text('Cancel',
+                  style: TextStyle(
+                      color: Get.isDarkMode ? Colors.grey : Colors.grey)),
             ),
             TextButton(
               onPressed: () {
@@ -316,7 +337,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   backgroundColor: Colors.red,
                   colorText: Colors.white,
                 );
-                // Add delete account logic here
               },
               child: Text('Delete', style: TextStyle(color: Colors.red)),
             ),

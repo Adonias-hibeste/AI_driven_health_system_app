@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:predictive_health_management_system/screens/settings_screen.dart';
 
 class MedicationReminderScreen extends StatefulWidget {
   @override
@@ -23,7 +24,6 @@ class _MedicationReminderScreenState extends State<MedicationReminderScreen> {
     ];
   }
 
-  // Group medications based on the time of day
   String _categorizeTime(String time) {
     final parsedTime = TimeOfDay(
       hour: int.parse(time.split(":")[0]),
@@ -34,7 +34,6 @@ class _MedicationReminderScreenState extends State<MedicationReminderScreen> {
     return "Evening";
   }
 
-  // Mark a medication as taken
   void _markAsTaken(Map<String, dynamic> medication) {
     setState(() {
       medication['taken'] = true;
@@ -43,73 +42,89 @@ class _MedicationReminderScreenState extends State<MedicationReminderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Get.back(),
-        ),
-        title: Text(
-          'Medication Reminder',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-        backgroundColor: Color(0xFF56ab2f),
-        elevation: 0,
-      ),
-      body: SafeArea(
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFFa8e063), Color(0xFF56ab2f)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+    final ThemeController themeController = Get.find<ThemeController>();
+
+    return Obx(() {
+      bool isDarkMode = themeController.isDarkMode.value;
+
+      return Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: isDarkMode ? Colors.white : Colors.black,
+            ),
+            onPressed: () => Get.back(),
+          ),
+          title: Text(
+            'Medication Reminder',
+            style: TextStyle(
+              color: isDarkMode ? Colors.white : Colors.black,
+              fontWeight: FontWeight.bold,
             ),
           ),
-          child: ListView(
-            padding: EdgeInsets.all(16.0),
-            children: [
-              _buildMedicationSection("Morning"),
-              _buildMedicationSection("Afternoon"),
-              _buildMedicationSection("Evening"),
-            ],
+          centerTitle: true,
+          backgroundColor: isDarkMode ? Colors.black : Color(0xFF56ab2f),
+          elevation: 0,
+        ),
+        body: SafeArea(
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: isDarkMode
+                  ? null
+                  : LinearGradient(
+                      colors: [Color(0xFFa8e063), Color(0xFF56ab2f)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+              color: isDarkMode ? Colors.black : null,
+            ),
+            child: ListView(
+              padding: EdgeInsets.all(16.0),
+              children: [
+                _buildMedicationSection("Morning", isDarkMode),
+                _buildMedicationSection("Afternoon", isDarkMode),
+                _buildMedicationSection("Evening", isDarkMode),
+              ],
+            ),
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        selectedItemColor: Color(0xFF56ab2f),
-        unselectedItemColor: Colors.grey,
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Overview'),
-          BottomNavigationBarItem(icon: Icon(Icons.alarm), label: 'Reminders'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.settings), label: 'Settings'),
-        ],
-        currentIndex: 1,
-        onTap: (index) {
-          switch (index) {
-            case 0:
-              Get.toNamed('/home');
-              break;
-            case 1:
-              break; // Already on this screen
-            case 2:
-              Get.toNamed('/profile');
-              break;
-            case 3:
-              Get.toNamed('/settings');
-              break;
-          }
-        },
-      ),
-    );
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
+          selectedItemColor: const Color(0xFF56ab2f),
+          unselectedItemColor: isDarkMode ? Colors.white70 : Colors.grey,
+          showSelectedLabels: true,
+          showUnselectedLabels: true,
+          items: [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Overview'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.alarm), label: 'Reminders'),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.settings), label: 'Settings'),
+          ],
+          currentIndex: 1,
+          onTap: (index) {
+            switch (index) {
+              case 0:
+                Get.toNamed('/home');
+                break;
+              case 1:
+                break;
+              case 2:
+                Get.toNamed('/profile');
+                break;
+              case 3:
+                Get.toNamed('/settings');
+                break;
+            }
+          },
+        ),
+      );
+    });
   }
 
-  Widget _buildMedicationSection(String timeCategory) {
+  Widget _buildMedicationSection(String timeCategory, bool isDarkMode) {
     final categorizedMeds = medicationList
         .where((med) => _categorizeTime(med['time']) == timeCategory)
         .toList();
@@ -122,33 +137,37 @@ class _MedicationReminderScreenState extends State<MedicationReminderScreen> {
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: isDarkMode ? Colors.white : Colors.black,
           ),
         ),
         SizedBox(height: 10),
         Column(
-          children:
-              categorizedMeds.map((med) => _buildMedicationCard(med)).toList(),
+          children: categorizedMeds
+              .map((med) => _buildMedicationCard(med, isDarkMode))
+              .toList(),
         ),
         SizedBox(height: 20),
       ],
     );
   }
 
-  Widget _buildMedicationCard(Map<String, dynamic> medication) {
+  Widget _buildMedicationCard(
+      Map<String, dynamic> medication, bool isDarkMode) {
     return Container(
       margin: EdgeInsets.only(bottom: 16),
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isDarkMode ? Colors.grey[800] : Colors.white,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 8,
-            offset: Offset(0, 4),
-          ),
-        ],
+        boxShadow: isDarkMode
+            ? []
+            : [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 8,
+                  offset: Offset(0, 4),
+                ),
+              ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -161,13 +180,16 @@ class _MedicationReminderScreenState extends State<MedicationReminderScreen> {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
+                  color: isDarkMode ? Colors.white : Colors.black,
                 ),
               ),
               SizedBox(height: 5),
               Text(
                 'Time: ${medication['time']}',
-                style: TextStyle(fontSize: 14, color: Colors.grey),
+                style: TextStyle(
+                  fontSize: 14,
+                  color: isDarkMode ? Colors.white70 : Colors.grey,
+                ),
               ),
             ],
           ),

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter/services.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -61,7 +62,9 @@ class _ProfilePageState extends State<ProfilePage> {
             padding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xFFa8e063), Color(0xFF56ab2f)],
+                colors: Get.isDarkMode
+                    ? [Colors.black87, Colors.black54]
+                    : [Color(0xFFa8e063), Color(0xFF56ab2f)],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -74,7 +77,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: IconButton(
-                        icon: Icon(Icons.arrow_back, color: Colors.white),
+                        icon: Icon(Icons.arrow_back, color: Colors.black),
                         onPressed: () {
                           Get.back();
                         },
@@ -84,7 +87,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: Text(
                         'Profile',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                         ),
@@ -141,7 +144,7 @@ class _ProfilePageState extends State<ProfilePage> {
           Expanded(
             child: Container(
               padding: EdgeInsets.all(16.0),
-              color: Colors.grey[100],
+              color: Get.isDarkMode ? Colors.black87 : Colors.grey[100],
               child: ListView(
                 children: [
                   Text(
@@ -167,7 +170,7 @@ class _ProfilePageState extends State<ProfilePage> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Get.isDarkMode ? Colors.black87 : Colors.white,
         selectedItemColor: Color(0xFF56ab2f),
         unselectedItemColor: Colors.grey,
         showSelectedLabels: true,
@@ -200,10 +203,11 @@ class _ProfilePageState extends State<ProfilePage> {
     return TextField(
       controller: TextEditingController(text: initialValue),
       enabled: _isEditing,
+      style: TextStyle(color: Get.isDarkMode ? Colors.white : Colors.black),
       decoration: InputDecoration(
         labelText: label,
         labelStyle: TextStyle(color: Color(0xFF56ab2f)),
-        fillColor: Colors.white,
+        fillColor: Get.isDarkMode ? Colors.grey[800] : Colors.white,
         filled: true,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
