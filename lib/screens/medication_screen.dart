@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:predictive_health_management_system/screens/settings_screen.dart';
 
 class MedicationReminderScreen extends StatefulWidget {
+  const MedicationReminderScreen({super.key});
+
   @override
   _MedicationReminderScreenState createState() =>
       _MedicationReminderScreenState();
@@ -64,7 +66,7 @@ class _MedicationReminderScreenState extends State<MedicationReminderScreen> {
             ),
           ),
           centerTitle: true,
-          backgroundColor: isDarkMode ? Colors.black : Color(0xFF56ab2f),
+          backgroundColor: isDarkMode ? Colors.black : const Color(0xFF56ab2f),
           elevation: 0,
         ),
         body: SafeArea(
@@ -72,7 +74,7 @@ class _MedicationReminderScreenState extends State<MedicationReminderScreen> {
             decoration: BoxDecoration(
               gradient: isDarkMode
                   ? null
-                  : LinearGradient(
+                  : const LinearGradient(
                       colors: [Color(0xFFa8e063), Color(0xFF56ab2f)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
@@ -80,7 +82,7 @@ class _MedicationReminderScreenState extends State<MedicationReminderScreen> {
               color: isDarkMode ? Colors.black : null,
             ),
             child: ListView(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               children: [
                 _buildMedicationSection("Morning", isDarkMode),
                 _buildMedicationSection("Afternoon", isDarkMode),
@@ -95,7 +97,7 @@ class _MedicationReminderScreenState extends State<MedicationReminderScreen> {
           unselectedItemColor: isDarkMode ? Colors.white70 : Colors.grey,
           showSelectedLabels: true,
           showUnselectedLabels: true,
-          items: [
+          items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Overview'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.alarm), label: 'Reminders'),
@@ -128,7 +130,7 @@ class _MedicationReminderScreenState extends State<MedicationReminderScreen> {
     final categorizedMeds = medicationList
         .where((med) => _categorizeTime(med['time']) == timeCategory)
         .toList();
-    if (categorizedMeds.isEmpty) return SizedBox.shrink();
+    if (categorizedMeds.isEmpty) return const SizedBox.shrink();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -140,13 +142,13 @@ class _MedicationReminderScreenState extends State<MedicationReminderScreen> {
             color: isDarkMode ? Colors.white : Colors.black,
           ),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Column(
           children: categorizedMeds
               .map((med) => _buildMedicationCard(med, isDarkMode))
               .toList(),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
       ],
     );
   }
@@ -154,15 +156,15 @@ class _MedicationReminderScreenState extends State<MedicationReminderScreen> {
   Widget _buildMedicationCard(
       Map<String, dynamic> medication, bool isDarkMode) {
     return Container(
-      margin: EdgeInsets.only(bottom: 16),
-      padding: EdgeInsets.all(16),
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: isDarkMode ? Colors.grey[800] : Colors.white,
         borderRadius: BorderRadius.circular(12),
         boxShadow: isDarkMode
             ? []
             : [
-                BoxShadow(
+                const BoxShadow(
                   color: Colors.black12,
                   blurRadius: 8,
                   offset: Offset(0, 4),
@@ -183,7 +185,7 @@ class _MedicationReminderScreenState extends State<MedicationReminderScreen> {
                   color: isDarkMode ? Colors.white : Colors.black,
                 ),
               ),
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
               Text(
                 'Time: ${medication['time']}',
                 style: TextStyle(
@@ -198,11 +200,11 @@ class _MedicationReminderScreenState extends State<MedicationReminderScreen> {
                 medication['taken'] ? null : () => _markAsTaken(medication),
             style: ElevatedButton.styleFrom(
               backgroundColor:
-                  medication['taken'] ? Colors.grey : Color(0xFF56ab2f),
+                  medication['taken'] ? Colors.grey : const Color(0xFF56ab2f),
             ),
             child: Text(
               medication['taken'] ? 'Taken' : 'Mark as Taken',
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
             ),
           ),
         ],

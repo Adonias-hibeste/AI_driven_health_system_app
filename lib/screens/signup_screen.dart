@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SignupScreen extends StatelessWidget {
+  const SignupScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xFFa8e063), Color(0xFF56ab2f)],
             begin: Alignment.topLeft,
@@ -24,7 +26,7 @@ class SignupScreen extends StatelessWidget {
                 // App Logo or Icon
                 Center(
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
@@ -35,7 +37,7 @@ class SignupScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    child: CircleAvatar(
+                    child: const CircleAvatar(
                       radius: 60,
                       backgroundColor: Colors.white,
                       child: Icon(
@@ -47,10 +49,10 @@ class SignupScreen extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Title
-                Center(
+                const Center(
                   child: Text(
                     'Create Account',
                     style: TextStyle(
@@ -62,7 +64,7 @@ class SignupScreen extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
 
                 // Full Name Field
                 _buildTextField(
@@ -70,7 +72,7 @@ class SignupScreen extends StatelessWidget {
                   icon: Icons.person,
                 ),
 
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
 
                 // Email Field
                 _buildTextField(
@@ -78,7 +80,7 @@ class SignupScreen extends StatelessWidget {
                   icon: Icons.email,
                 ),
 
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
 
                 // Phone Number Field
                 _buildTextField(
@@ -86,7 +88,7 @@ class SignupScreen extends StatelessWidget {
                   icon: Icons.phone,
                 ),
 
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
 
                 // Address Field
                 _buildTextField(
@@ -94,7 +96,7 @@ class SignupScreen extends StatelessWidget {
                   icon: Icons.location_on,
                 ),
 
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
 
                 // Gender Dropdown
                 _buildDropdownField(
@@ -102,7 +104,7 @@ class SignupScreen extends StatelessWidget {
                   icon: Icons.wc,
                 ),
 
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
 
                 // Password Field
                 _buildTextField(
@@ -111,7 +113,7 @@ class SignupScreen extends StatelessWidget {
                   isPassword: true,
                 ),
 
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
 
                 // Sign Up Button
                 Center(
@@ -121,14 +123,14 @@ class SignupScreen extends StatelessWidget {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 50, vertical: 15),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
                       elevation: 5,
                     ),
-                    child: Text(
+                    child: const Text(
                       'Sign Up',
                       style: TextStyle(
                         color: Color(0xFF56ab2f),
@@ -139,7 +141,7 @@ class SignupScreen extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Already have an account link
                 Center(
@@ -147,7 +149,7 @@ class SignupScreen extends StatelessWidget {
                     onPressed: () {
                       Get.toNamed('/login');
                     },
-                    child: Text(
+                    child: const Text(
                       "Already have an account? Login",
                       style: TextStyle(
                         color: Colors.white,
@@ -172,18 +174,19 @@ class SignupScreen extends StatelessWidget {
   }) {
     return TextField(
       obscureText: isPassword,
-      style: TextStyle(color: Colors.black),
+      style: const TextStyle(color: Colors.black),
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white,
-        prefixIcon: Icon(icon, color: Color(0xFF56ab2f)),
+        prefixIcon: Icon(icon, color: const Color(0xFF56ab2f)),
         hintText: hintText,
-        hintStyle: TextStyle(color: Colors.grey),
+        hintStyle: const TextStyle(color: Colors.grey),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
           borderSide: BorderSide.none,
         ),
-        contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
       ),
     );
   }
@@ -197,14 +200,15 @@ class SignupScreen extends StatelessWidget {
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white,
-        prefixIcon: Icon(icon, color: Color(0xFF56ab2f)),
+        prefixIcon: Icon(icon, color: const Color(0xFF56ab2f)),
         hintText: hintText,
-        hintStyle: TextStyle(color: Colors.grey),
+        hintStyle: const TextStyle(color: Colors.grey),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
           borderSide: BorderSide.none,
         ),
-        contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
       ),
       items: ['Male', 'Female']
           .map((gender) => DropdownMenuItem<String>(

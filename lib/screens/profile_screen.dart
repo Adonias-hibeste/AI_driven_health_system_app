@@ -5,6 +5,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/services.dart';
 
 class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
+
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -14,10 +16,10 @@ class _ProfilePageState extends State<ProfilePage> {
   XFile? _profileImage;
   bool _isEditing = false;
 
-  String _name = 'John Doe';
-  String _email = 'john.doe@example.com';
-  String _phone = '123-456-7890';
-  String _address = '123 Main Street, City, Country';
+  final String _name = 'John Doe';
+  final String _email = 'john.doe@example.com';
+  final String _phone = '123-456-7890';
+  final String _address = '123 Main Street, City, Country';
 
   int _currentIndex = 2; // Initially set to Profile tab
 
@@ -59,12 +61,12 @@ class _ProfilePageState extends State<ProfilePage> {
         children: [
           // Top gradient section with profile image
           Container(
-            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: Get.isDarkMode
                     ? [Colors.black87, Colors.black54]
-                    : [Color(0xFFa8e063), Color(0xFF56ab2f)],
+                    : [const Color(0xFFa8e063), const Color(0xFF56ab2f)],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -77,7 +79,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: IconButton(
-                        icon: Icon(Icons.arrow_back, color: Colors.black),
+                        icon: Icon(
+                          Icons.arrow_back,
+                          color: Get.isDarkMode ? Colors.white : Colors.black,
+                        ),
                         onPressed: () {
                           Get.back();
                         },
@@ -87,7 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: Text(
                         'Profile',
                         style: TextStyle(
-                          color: Colors.black,
+                          color: Get.isDarkMode ? Colors.white : Colors.black,
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                         ),
@@ -95,7 +100,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 // Profile Image
                 GestureDetector(
                   onTap: _pickImage,
@@ -106,11 +111,12 @@ class _ProfilePageState extends State<ProfilePage> {
                         ? FileImage(File(_profileImage!.path))
                         : null,
                     child: _profileImage == null
-                        ? Icon(Icons.camera_alt, size: 40, color: Colors.white)
+                        ? const Icon(Icons.camera_alt,
+                            size: 40, color: Colors.white)
                         : null,
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 // Edit/Save Button
                 ElevatedButton(
                   onPressed: () {
@@ -128,8 +134,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
-                    foregroundColor: Color(0xFF56ab2f),
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    foregroundColor: const Color(0xFF56ab2f),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 12),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -143,11 +150,11 @@ class _ProfilePageState extends State<ProfilePage> {
           // Personal Information Section
           Expanded(
             child: Container(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               color: Get.isDarkMode ? Colors.black87 : Colors.grey[100],
               child: ListView(
                 children: [
-                  Text(
+                  const Text(
                     'Personal Information',
                     style: TextStyle(
                       fontSize: 24,
@@ -155,13 +162,13 @@ class _ProfilePageState extends State<ProfilePage> {
                       color: Color(0xFF56ab2f),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   _buildTextField('Name', _name),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   _buildTextField('Email', _email),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   _buildTextField('Phone', _phone),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   _buildTextField('Address', _address),
                 ],
               ),
@@ -171,11 +178,11 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Get.isDarkMode ? Colors.black87 : Colors.white,
-        selectedItemColor: Color(0xFF56ab2f),
+        selectedItemColor: const Color(0xFF56ab2f),
         unselectedItemColor: Colors.grey,
         showSelectedLabels: true,
         showUnselectedLabels: true,
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Overview',
@@ -206,7 +213,7 @@ class _ProfilePageState extends State<ProfilePage> {
       style: TextStyle(color: Get.isDarkMode ? Colors.white : Colors.black),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: TextStyle(color: Color(0xFF56ab2f)),
+        labelStyle: const TextStyle(color: Color(0xFF56ab2f)),
         fillColor: Get.isDarkMode ? Colors.grey[800] : Colors.white,
         filled: true,
         border: OutlineInputBorder(
@@ -214,11 +221,11 @@ class _ProfilePageState extends State<ProfilePage> {
           borderSide: BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Color(0xFF56ab2f), width: 1.5),
+          borderSide: const BorderSide(color: Color(0xFF56ab2f), width: 1.5),
           borderRadius: BorderRadius.circular(8.0),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Color(0xFF56ab2f), width: 2.0),
+          borderSide: const BorderSide(color: Color(0xFF56ab2f), width: 2.0),
           borderRadius: BorderRadius.circular(8.0),
         ),
       ),

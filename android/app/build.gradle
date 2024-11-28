@@ -6,6 +6,7 @@ plugins {
 }
 
 android {
+    
     namespace = "com.example.predictive_health_management_system"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion

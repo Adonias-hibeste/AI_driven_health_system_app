@@ -4,10 +4,12 @@ import 'package:lottie/lottie.dart';
 import 'package:predictive_health_management_system/screens/login_screen.dart';
 
 class SplashScreen extends StatelessWidget {
+  const SplashScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     // Navigate to the LoginScreen after 4 seconds
-    Future.delayed(Duration(seconds: 4), () {
+    Future.delayed(const Duration(seconds: 4), () {
       Get.off(() => LoginScreen()); // Navigate to the LoginScreen
     });
 

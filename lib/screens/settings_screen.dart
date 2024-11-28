@@ -11,6 +11,8 @@ class ThemeController extends GetxController {
 }
 
 class SettingsPage extends StatefulWidget {
+  const SettingsPage({super.key});
+
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }
@@ -48,27 +50,34 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Get.isDarkMode ? Colors.white : Colors.black,
+          ),
           onPressed: () {
             Get.back();
           },
         ),
         title: Text(
           'Settings',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: Get.isDarkMode ? Colors.white : Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         centerTitle: true,
-        backgroundColor: Get.isDarkMode ? Colors.black : Color(0xFF56ab2f),
+        backgroundColor:
+            Get.isDarkMode ? Colors.black : const Color(0xFF56ab2f),
         elevation: 2,
       ),
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: Get.isDarkMode
                   ? [Colors.black87, Colors.black54]
-                  : [Color(0xFFa8e063), Color(0xFF56ab2f)],
+                  : [const Color(0xFFa8e063), const Color(0xFF56ab2f)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -88,7 +97,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   },
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               // Account Management Section
               _buildSectionHeader('Account'),
@@ -145,7 +154,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ],
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               // Privacy Settings Section
               _buildSectionHeader('Privacy'),
@@ -160,7 +169,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   },
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               // Theme Settings Section
               _buildSectionHeader('Appearance'),
@@ -175,7 +184,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   );
                 }),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
               // App Info Section
               _buildSectionHeader('App Information'),
@@ -206,11 +215,11 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Get.isDarkMode ? Colors.black87 : Colors.white,
-        selectedItemColor: Color(0xFF56ab2f),
+        selectedItemColor: const Color(0xFF56ab2f),
         unselectedItemColor: Colors.grey,
         showSelectedLabels: true,
         showUnselectedLabels: true,
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Overview',
@@ -239,7 +248,7 @@ class _SettingsPageState extends State<SettingsPage> {
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Text(
         title,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
           color: Colors.white,
@@ -265,8 +274,8 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget _buildListTile(String title, IconData icon, Function() onTap,
       {Color? textColor}) {
     return ListTile(
-      leading:
-          Icon(icon, color: Get.isDarkMode ? Colors.white : Color(0xFF56ab2f)),
+      leading: Icon(icon,
+          color: Get.isDarkMode ? Colors.white : const Color(0xFF56ab2f)),
       title: Text(
         title,
         style: TextStyle(
@@ -299,7 +308,7 @@ class _SettingsPageState extends State<SettingsPage> {
       trailing: Switch(
         value: value,
         onChanged: onChanged,
-        activeColor: Color(0xFF56ab2f),
+        activeColor: const Color(0xFF56ab2f),
         inactiveThumbColor: Colors.grey,
         inactiveTrackColor: Colors.grey[400],
       ),
@@ -338,7 +347,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   colorText: Colors.white,
                 );
               },
-              child: Text('Delete', style: TextStyle(color: Colors.red)),
+              child: const Text('Delete', style: TextStyle(color: Colors.red)),
             ),
           ],
         );

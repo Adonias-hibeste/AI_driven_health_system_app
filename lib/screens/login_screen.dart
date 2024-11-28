@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xFFa8e063), Color(0xFF56ab2f)],
             begin: Alignment.topLeft,
@@ -23,7 +25,7 @@ class LoginScreen extends StatelessWidget {
                 children: [
                   // App Logo or Icon
                   Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
@@ -34,7 +36,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    child: CircleAvatar(
+                    child: const CircleAvatar(
                       radius: 60,
                       backgroundColor: Colors.white,
                       child: Icon(
@@ -45,10 +47,10 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
 
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   // App Name
-                  Text(
+                  const Text(
                     'Health Track',
                     style: TextStyle(
                       fontSize: 36,
@@ -58,7 +60,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
 
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
 
                   // Email Field
                   _buildTextField(
@@ -66,7 +68,7 @@ class LoginScreen extends StatelessWidget {
                     prefixIcon: Icons.email,
                   ),
 
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   // Password Field
                   _buildTextField(
@@ -75,7 +77,7 @@ class LoginScreen extends StatelessWidget {
                     obscureText: true,
                   ),
 
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
 
                   // Login Button
                   ElevatedButton(
@@ -84,14 +86,14 @@ class LoginScreen extends StatelessWidget {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 50, vertical: 15),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
                       elevation: 5,
                     ),
-                    child: Text(
+                    child: const Text(
                       'Login',
                       style: TextStyle(
                         color: Color(0xFF56ab2f),
@@ -101,14 +103,14 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
 
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   // Forgot Password Link
                   TextButton(
                     onPressed: () {
                       // Add forgot password functionality here
                     },
-                    child: Text(
+                    child: const Text(
                       "Forgot Password?",
                       style: TextStyle(
                         color: Colors.white,
@@ -118,14 +120,14 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
 
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
 
                   // Sign Up Link
                   TextButton(
                     onPressed: () {
                       Get.toNamed('/signup');
                     },
-                    child: Text(
+                    child: const Text(
                       "Don't have an account? Sign Up",
                       style: TextStyle(
                         color: Colors.white,
@@ -150,18 +152,19 @@ class LoginScreen extends StatelessWidget {
   }) {
     return TextField(
       obscureText: obscureText,
-      style: TextStyle(color: Colors.black),
+      style: const TextStyle(color: Colors.black),
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white,
-        prefixIcon: Icon(prefixIcon, color: Color(0xFF56ab2f)),
+        prefixIcon: Icon(prefixIcon, color: const Color(0xFF56ab2f)),
         hintText: hintText,
-        hintStyle: TextStyle(color: Colors.grey),
+        hintStyle: const TextStyle(color: Colors.grey),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
           borderSide: BorderSide.none,
         ),
-        contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
       ),
     );
   }

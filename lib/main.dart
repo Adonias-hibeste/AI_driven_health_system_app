@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:predictive_health_management_system/screens/home_screen.dart';
 import 'package:predictive_health_management_system/screens/login_screen.dart';
 import 'package:predictive_health_management_system/screens/medication_screen.dart';
@@ -14,7 +13,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +36,7 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.dark,
           primarySwatch: Colors.green,
         ),
-        initialRoute: '/signup', // Change initial route as needed
+        initialRoute: '/login', // Change initial route as needed
         getPages: [
           GetPage(name: '/SplashScreen', page: () => SplashScreen()),
           GetPage(name: '/home', page: () => HomeScreen()),

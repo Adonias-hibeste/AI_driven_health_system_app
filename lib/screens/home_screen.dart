@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:predictive_health_management_system/screens/settings_screen.dart';
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     // Use MediaQuery to calculate screen width to avoid null issues
@@ -43,7 +45,7 @@ class HomeScreen extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: isDarkMode
                 ? null
-                : LinearGradient(
+                : const LinearGradient(
                     colors: [Color(0xFFa8e063), Color(0xFF56ab2f)],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -57,7 +59,7 @@ class HomeScreen extends StatelessWidget {
               children: [
                 // Device Connection Section
                 _buildDeviceConnectionSection(isDarkMode),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Greeting Header
                 Text(
@@ -68,7 +70,7 @@ class HomeScreen extends StatelessWidget {
                     color: isDarkMode ? Colors.white : Colors.black,
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Text(
                   'Here is your health summary:',
                   style: TextStyle(
@@ -76,7 +78,7 @@ class HomeScreen extends StatelessWidget {
                     color: isDarkMode ? Colors.white70 : Colors.black87,
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Health Data Cards
                 Wrap(
@@ -125,7 +127,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Weekly Progress Chart Placeholder
                 Text(
@@ -136,7 +138,7 @@ class HomeScreen extends StatelessWidget {
                     color: isDarkMode ? Colors.white : Colors.black,
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Container(
                   height: 200,
                   decoration: BoxDecoration(
@@ -167,7 +169,7 @@ class HomeScreen extends StatelessWidget {
             );
           },
           backgroundColor: const Color(0xFF56ab2f),
-          child: Icon(Icons.notifications, color: Colors.white),
+          child: const Icon(Icons.notifications, color: Colors.white),
         ),
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
@@ -175,7 +177,7 @@ class HomeScreen extends StatelessWidget {
           unselectedItemColor: isDarkMode ? Colors.white70 : Colors.grey,
           showSelectedLabels: true,
           showUnselectedLabels: true,
-          items: [
+          items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
               label: 'Overview',
@@ -219,14 +221,14 @@ class HomeScreen extends StatelessWidget {
   // Helper method for device connection section
   Widget _buildDeviceConnectionSection(bool isDarkMode) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: isDarkMode ? Colors.grey[800] : Colors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: isDarkMode
             ? []
             : [
-                BoxShadow(
+                const BoxShadow(
                   color: Colors.black12,
                   blurRadius: 8,
                   offset: Offset(0, 4),
@@ -238,12 +240,12 @@ class HomeScreen extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.watch,
                 size: 48,
-                color: const Color(0xFF56ab2f),
+                color: Color(0xFF56ab2f),
               ),
-              SizedBox(width: 12),
+              const SizedBox(width: 12),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -255,8 +257,8 @@ class HomeScreen extends StatelessWidget {
                       color: isDarkMode ? Colors.white : Colors.black,
                     ),
                   ),
-                  SizedBox(height: 4),
-                  Text(
+                  const SizedBox(height: 4),
+                  const Text(
                     'Disconnected',
                     style: TextStyle(
                       fontSize: 14,
@@ -277,13 +279,13 @@ class HomeScreen extends StatelessWidget {
                 colorText: Colors.white,
               );
             },
-            icon: Icon(Icons.refresh, color: const Color(0xFF56ab2f)),
-            label: Text(
+            icon: const Icon(Icons.refresh, color: Color(0xFF56ab2f)),
+            label: const Text(
               'Reconnect',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: const Color(0xFF56ab2f),
+                color: Color(0xFF56ab2f),
               ),
             ),
           ),
@@ -303,14 +305,14 @@ class HomeScreen extends StatelessWidget {
   }) {
     return Container(
       width: width,
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: isDarkMode ? Colors.grey[800] : Colors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: isDarkMode
             ? []
             : [
-                BoxShadow(
+                const BoxShadow(
                   color: Colors.black12,
                   blurRadius: 8,
                   offset: Offset(0, 4),
@@ -321,7 +323,7 @@ class HomeScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(icon, size: 32, color: color),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           Text(
             value,
             style: TextStyle(
@@ -330,7 +332,7 @@ class HomeScreen extends StatelessWidget {
               color: isDarkMode ? Colors.white : Colors.black,
             ),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
             title,
             style: TextStyle(
